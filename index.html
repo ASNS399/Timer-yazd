@@ -1,65 +1,89 @@
 <!DOCTYPE html>
 <html lang="fa">
+
 <head>
-  <meta charset="UTF-8">
-  <title>شمارش معکوس</title>
-  <style>
-    body {
-      font-family: "Tahoma", sans-serif;
-      background: #f0f0f0;
-      text-align: center;
-      padding-top: 50px;
-    }
-    #countdown {
-      font-size: 2em;
-      color: #333;
-      background: #fff;
-      display: inline-block;
-      padding: 20px 40px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    }
-    span {
-      margin: 0 10px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>اردوی یزد - شمارش معکوس</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background: linear-gradient(135deg, #2aaeda, #080dff);
+            text-align: center;
+            padding-top: 80px;
+        }
+
+        h1 {
+            font-size: 40px;
+            color: #ffffff;
+            text-shadow: 2px 2px 5px #000;
+            margin-bottom: 30px;
+        }
+
+        #timer {
+            font-size: 40px;
+            font-weight: bold;
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.5);
+            display: inline-block;
+            padding: 20px 40px;
+            border-radius: 15px;
+            text-shadow: 2px 2px 5px #000;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+            line-height: 1.8;
+            direction: rtl;
+        }
+
+        .boom {
+            color: #ff0000;
+            animation: blink 0.8s infinite;
+        }
+
+        @keyframes blink {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
 </head>
+
 <body>
-  <h1>شمارش معکوس تا دوشنبه ۱۷ نوامبر ساعت ۱۶:۳۰</h1>
-  <div id="countdown"></div>
+    <h1>⏳ شمارش معکوس تا اردوی یزد</h1>
+    <div id="timer"></div>
 
-  <script>
-    // تاریخ هدف: دوشنبه 17 نوامبر 2025 ساعت 16:30
-    var targetDate = new Date("Nov 17, 2025 16:30:00").getTime();
+    <script>
+        let targetTime = new Date("Nov 17, 2025 16:30:00").getTime();
 
-    var countdownElement = document.getElementById("countdown");
+        let timer = setInterval(function () {
+            let now = new Date().getTime();
+            let distance = targetTime - now;
 
-    var x = setInterval(function() {
-      var now = new Date().getTime();
-      var distance = targetDate - now;
+            let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            let seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-      if (distance < 0) {
-        clearInterval(x);
-        countdownElement.innerHTML = "زمان به پایان رسید!";
-        return;
-      }
-
-      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-      // تبدیل اعداد به فارسی
-      function toPersianDigits(num) {
-        return num.toString().replace(/\d/g, d => "۰۱۲۳۴۵۶۷۸۹"[d]);
-      }
-
-      countdownElement.innerHTML =
-        "<span>" + toPersianDigits(days) + " روز</span>" +
-        "<span>" + toPersianDigits(hours) + " ساعت</span>" +
-        "<span>" + toPersianDigits(minutes) + " دقیقه</span>" +
-        "<span>" + toPersianDigits(seconds) + " ثانیه</span>";
-    }, 1000);
-  </script>
+            if (distance > 0) {
+                let output = "";
+                if (days > 0) output += days + " روز<br>";
+                if (hours > 0 || days > 0) output += hours + " ساعت<br>";
+                output += minutes + " دقیقه<br>";
+                output += (seconds < 10 ? "0" : "") + seconds + " ثانیه<br>";
+                document.getElementById("timer").innerHTML = output;
+            } else {
+                clearInterval(timer);
+                document.getElementById("timer").innerHTML = "💥 اردوی یزد شروع شد!";
+                document.getElementById("timer").classList.add("boom");
+            }
+        }, 1000);
+    </script>
 </body>
+
 </html>
